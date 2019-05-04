@@ -5,8 +5,8 @@ using namespace std;
 // UNLIMITED SPACE!... jk. it's only max that an unsigned int can hold
 const size_t String::npos = -1;
 
-// initial capacity will be 1, for '\0' only
-const size_t String::INIT_CAP = 22;
+// arbitrary initial capacity, right?
+const size_t String::INIT_CAP = 33;
 
 // overloads stream insertion and extraction operators for Strings
 ostream& operator<<(ostream &os, const String &s) {
@@ -23,7 +23,7 @@ ostream& operator<<(ostream &os, const String &s) {
 }
 
 istream& operator>>(istream &is, String &s) {
-    // same as getline, i guess, from the description in the document
+    // same as getline, i guess
     return getline(is, s);
 }
 
@@ -31,7 +31,7 @@ istream& getline(istream &is, String &s, const char &del) {
     char ch;
     // clear the string
     s.clear();
-    // read all the characters from the istream till we reach the del or the istream ends
+    // read all the characters from the istream till we reach the delimiter or the istream ends
     while (is.get(ch) && ch != del) {
         s.push_back(ch);
     }
@@ -123,7 +123,7 @@ String::String(const String &s) {
     // if the size is bigger than the initial capacity, allocate enough memory
     // so that we can store s's content into the current string
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -140,7 +140,7 @@ String::String(const String &s, const size_t &pos, const size_t &n) {
     // we need at least n characters in the char array
     sz = n;
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -163,7 +163,7 @@ String::String(const char *c, const size_t &n) {
     // size will be n
     sz = n;
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -185,7 +185,7 @@ String::String(const char *s) {
     // simply copy the s into the p
     sz = strlen(s);
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -199,7 +199,7 @@ String::String(const size_t &t, const char &c) {
     p = (char*) malloc(cap * sizeof(char));
 
     sz = t;
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
     // fill it
@@ -221,7 +221,7 @@ String &String::operator=(const String& s) {
     // copy the size from s to the current String
     sz = s.sz;
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -241,7 +241,7 @@ String &String::operator=(const char* s) {
     // simply copy the s into the p
     sz = strlen(s);
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -255,7 +255,7 @@ String &String::operator=(const char& c) {
     // assign a single character
     sz = 1;
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
@@ -278,7 +278,7 @@ String &String::operator+=(const String& s) {
     // concat s.p with tmp
     strcat(tmp, s.p);
 
-    if (sz >= cap) {
+    while (sz >= cap) {
         expandMem(cap);
     }
 
